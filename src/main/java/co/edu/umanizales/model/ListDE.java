@@ -3,13 +3,16 @@ package co.edu.umanizales.model;
 import co.edu.umanizales.exception.ListDEException;
 import lombok.Data;
 
+import javax.sound.midi.Soundbank;
+import java.sql.SQLOutput;
+import java.time.LocalTime;
+
 @Data
-public class ListDE {
+public class ListDE{
     private NodeDE head;
     private int size;
 
     public void addLed(Led led) throws ListDEException {
-        if (this.head != null) {
             if (this.head != null) {
                 NodeDE temp = this.head;
                 while (temp.getNext() != null) {
@@ -28,7 +31,7 @@ public class ListDE {
                 this.head = new NodeDE(led);
             }
             size++;
-        }
+
     }
 
         public void addLedToBeginning (Led led){
@@ -65,5 +68,6 @@ public class ListDE {
             }
             throw new ListDEException("404", "No se ha encontrado");
         }
+
 
     }//end of the listDE---------------------------------

@@ -2,6 +2,7 @@ package co.edu.umanizales.service;
 
 import co.edu.umanizales.model.Led;
 import co.edu.umanizales.model.ListDE;
+import co.edu.umanizales.threads.ThreadOnOFffLeds;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,17 @@ public class ListDEService {
 
     public ListDEService() {
         leds = new ListDE();
+
     }
 
     public void addLedToEnd(Led led){ leds.addLed(led);}
     public void addLedToBeginning(Led led){leds.addLedToBeginning(led);}
     public void restartLeds(){leds.restartLeds();}
-    public void LedsToString(){leds.toListString();}
+    public String LedsToString(){return leds.toListString();}
+    public void ejecutarHilo() {
+        ThreadOnOFffLeds threadListDE = new ThreadOnOFffLeds(leds);
+        Thread thread = new Thread(threadListDE);
+        thread.start();
+    }
+
 }//end of the listDeService
