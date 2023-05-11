@@ -51,12 +51,11 @@ public class ListDEController {
     }
     @GetMapping(path = "/on_off_all_led")
     public ResponseEntity<ResponseDTO> onOffAllLeds(){
-        try{
+        if (listDEService.getLeds().getHead() != null) {
             listDEService.ejecutarHilo();
-            return new ResponseEntity<>(new ResponseDTO(200,"realizado",null),HttpStatus.OK);
-
-        }catch (ListDEException e){
-            throw new RequestException(e.getCode(),e.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ResponseDTO(200, "realizado", null), HttpStatus.OK);
+        }else{
+            throw new RequestException("404","No hay datos en la lista",HttpStatus.BAD_REQUEST);
         }
     }
 
