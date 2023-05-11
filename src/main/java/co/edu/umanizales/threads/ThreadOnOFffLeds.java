@@ -39,15 +39,16 @@ Primero se pregunta si hay datos , si los hay se procede , si no , se salta y se
  yo desee.
  Ahora despues de que esperen , cumplido el tiempo les digo que si siguen siendo nulos, que cada uno apague el bombillo y me
  diga a que hora lo hizo , deberia ser en este caso mil milisegundos despues de que se encendieran. una aclaracion, todos
- los ifs y las verificaciones son por seguiridad , ya que no deseo tener problemas con nullpointer que ya tuve en la creación.
- finalmente despues de realizada la actualizacion de la hora de apagado , le digo a temp que se me pase a el previous y al
+ los ifs y las verificaciones son por seguiridad , ya que no deseo tener problemas con nullpointer que ya tuve en la creación del metodo.
+ finalmente despues de realizada la actualizacion de la hora de apagado , le digo a temp que se me pase a el previous, y al
  empt que  se me pase al next y hagan lo mismo. cuando ya sean vacios los dos entonces les digo que se salgan y retornen el
  mensaje del controller.
  -------------------------------------------------------------------------------------------------------------------------
  ahora en el otro caso , si es un tamaño impar , lo que se debe hacer es coger el tamaño y restarlo en una unidad, asi se divide entre 2
  y se tiene la mitad , sin embargo como ya lo dije , en una lista con por ejemplo tamaño 5, lo que pasa es que se le resta 1 , entonces queda en
  4, y se divide entre 2 por lo tanto queda en 2, pero en el ciclo for va a quedar en la posicion 3 que es exactamente donde necesito que esté ya que
- es exactamente la mitad , parados en ese 3 nos sobran 2 datos a cada lado. en este caso decidi que no iba a hacer la actualización de la hora
+ es exactamente la mitad , parados en ese 3 nos sobran 2 datos a cada lado.
+ En este caso decidi que no iba a hacer la actualización de la hora
  de apagado y de encendido justo despues de tener al ayudante parado en el centro, ya que asi ahorro lineas de codigo y no me molesta tampoco
  ver repetido el mismo bombillo ya que el resultado es igual , sin embargo , bastaria con que al terminar el for y estar parado en el 3
  , decirle al ayudante temp que realice el apagado y encendido y retorne el mensaje. que cuando termine se pase para el previo y que el
