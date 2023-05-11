@@ -3,6 +3,7 @@ package co.edu.umanizales.threads;
 import co.edu.umanizales.exception.ListDEException;
 import co.edu.umanizales.model.ListDE;
 import co.edu.umanizales.model.NodeDE;
+import net.bytebuddy.implementation.bytecode.ByteCodeAppender;
 
 import java.time.LocalTime;
 
@@ -27,6 +28,9 @@ Primero se pregunta si hay datos , si los hay se procede , si no , se salta y se
  digamos que se procede, entonces creamos dos ayudantes , uno para el next y otro para el previous.
  ahora vamos a hacer la primera validación, si cuando el tamaño de la lista se divide entre 2 da como residuo 0 entonces
  es una lista par , de otra manera es una lista impar.
+------------------------------------------------------------------------------------------------------------------------
+si el tamaño de la lista es 1 , entonces debo solo perender la cabeza y retornar la hora en la cual se encendió y dejarlo
+encendido.
  ----------------------------------------------------------------------------------------------------------------------
  si es una lista par, divido la lista entre 2 para tener asi una variable de tipo entero que tenga ese dato de la mitad,
  pero hay un detalle,el acumulador inicia en 0, como el acumulador inicia en 0 se va a iterar por ejemplo si la pos es
@@ -56,6 +60,7 @@ Primero se pregunta si hay datos , si los hay se procede , si no , se salta y se
     ahora , como lo hice de una manera mas rapida evitando tener mas codigo, la verificacion la hace tanto el temp como el empt ,
     y despues de eso realizan el mismo proceso de arriba, se pasan al tiempo, apagan y prenden al tiempo , mandan el mensaje por consola
     , tienen su sleep y realmente todo es igual exceptuando el posicionamiento inicial.
+    para dejar los extremos prendidos, mientras en donde esté parado sea distinto de la cabeza apaguelos y de otra manera , dejelos encendidos.
 --------------------------------------------------------------------------------------------------------------------------
  */
     @Override
@@ -63,99 +68,123 @@ Primero se pregunta si hay datos , si los hay se procede , si no , se salta y se
         if (this.listDE.getHead() == null) {
 
         } else {
-
-            NodeDE temp = this.listDE.getHead();
-            NodeDE empt = this.listDE.getHead();
-            if (this.listDE.getSize() % 2 == 0) {
-                int pos = this.listDE.getSize() / 2;
-                for (int i = 0; i < pos; i++) {
-                    empt = empt.getNext();
-                    temp = empt;
-                }
-                temp = temp.getPrevious();
-                while (temp != null || empt != null) {
-                    if (temp != null) {
-                        temp.getData().setState(true);
-                        temp.getData().setDateOn(LocalTime.now());
-                        System.out.println("hora de encendido" + temp.getData().getId() +
-                                " : " + temp.getData().getDateOn());
-                    }
-                    if (empt != null) {
-                        empt.getData().setState(true);
-                        empt.getData().setDateOn(LocalTime.now());
-                        System.out.println("hora de encendido" + empt.getData().getId() +
-                                " : " + empt.getData().getDateOn());
-
-
-                    }
-                    try {
-                        Thread.sleep(10000);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-
-                    }if (temp != null) {
-                        temp.getData().setState(false);
-                        temp.getData().setDateOff(LocalTime.now());
-                        System.out.println("Hora de apagado" + temp.getData().getId() +
-                                " : " + temp.getData().getDateOff());
-                        temp = temp.getPrevious();
-                    }
-                    if (empt !=null) {
-                        empt.getData().setState(false);
-                        empt.getData().setDateOff(LocalTime.now());
-                        System.out.println("Hora de apagado" + empt.getData().getId() +
-                                " : " + empt.getData().getDateOff());
-                        empt = empt.getNext();
-                    }
-                }
-
+            if (listDE.getSize() == 1) {
+                NodeDE temp = this.listDE.getHead();
+                temp.getData().setState(true);
+                temp.getData().setDateOn(LocalTime.now());
             } else {
-                int pos = this.listDE.getSize() - 1;
-                pos = this.listDE.getSize() / 2;
-                for (int i = 0; i < pos; i++) {
-                    temp = temp.getNext();
-                    empt = temp;
-                }
-                while (temp != null || empt != null) {
-                    if (temp != null) {
-                        temp.getData().setState(true);
-                        temp.getData().setDateOn(LocalTime.now());
-                        System.out.println("hora de encendido" + temp.getData().getId() +
-                                " : " + temp.getData().getDateOn());
-
-                    }
-                    if (empt != null) {
-                        empt.getData().setState(true);
-                        empt.getData().setDateOn(LocalTime.now());
-                        System.out.println("hora de encendido" + empt.getData().getId() +
-                                " : " + empt.getData().getDateOn());
-
-
-                    }
-                    try {
-                        Thread.sleep(10000);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-
-                    }if (temp != null) {
-                        temp.getData().setState(false);
-                        temp.getData().setDateOff(LocalTime.now());
-                        System.out.println("Hora de apagado" + temp.getData().getId() +
-                                " : " + temp.getData().getDateOff());
-                        temp = temp.getPrevious();
-                    }
-                    if (empt !=null) {
-                        empt.getData().setState(false);
-                        empt.getData().setDateOff(LocalTime.now());
-                        System.out.println("Hora de apagado" + empt.getData().getId() +
-                                " : " + empt.getData().getDateOff());
+                NodeDE temp = this.listDE.getHead();
+                NodeDE empt = this.listDE.getHead();
+                if (this.listDE.getSize() % 2 == 0) {
+                    int pos = this.listDE.getSize() / 2;
+                    for (int i = 0; i < pos; i++) {
                         empt = empt.getNext();
+                        temp = empt;
                     }
+                    temp = temp.getPrevious();
+                    while (temp != null || empt != null) {
+                        if (temp != null) {
+                            temp.getData().setState(true);
+                            temp.getData().setDateOn(LocalTime.now());
+                            System.out.println("hora de encendido" + temp.getData().getId() +
+                                    " : " + temp.getData().getDateOn());
+                        }
+                        if (empt != null) {
+                            empt.getData().setState(true);
+                            empt.getData().setDateOn(LocalTime.now());
+                            System.out.println("hora de encendido" + empt.getData().getId() +
+                                    " : " + empt.getData().getDateOn());
+
+
+                        }
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+
+                        }
+                        if (temp != listDE.getHead()) {
+                            temp.getData().setState(false);
+                            temp.getData().setDateOff(LocalTime.now());
+                            System.out.println("Hora de apagado" + temp.getData().getId() +
+                                    " : " + temp.getData().getDateOff());
+                            temp = temp.getPrevious();
+
+
+                            empt.getData().setState(false);
+                            empt.getData().setDateOff(LocalTime.now());
+                            System.out.println("Hora de apagado" + empt.getData().getId() +
+                                    " : " + empt.getData().getDateOff());
+                            empt = empt.getNext();
+                        }else{
+                            temp.getData().setState(true);
+                            temp.getData().setDateOn(LocalTime.now());
+                            System.out.println("hora de encendido" + temp.getData().getId() +
+                                    " : " + temp.getData().getDateOn());
+                            empt.getData().setState(true);
+                            empt.getData().setDateOn(LocalTime.now());
+                            System.out.println("hora de encendido" + empt.getData().getId() +
+                                    " : " + empt.getData().getDateOn());
+                        }
+                    }
+
+                } else {
+                    int pos = this.listDE.getSize() - 1;
+                    pos = this.listDE.getSize() / 2;
+                    for (int i = 0; i < pos; i++) {
+                        temp = temp.getNext();
+                        empt = temp;
+                    }
+                    while (temp != null || empt != null) {
+                        if (temp != null) {
+                            temp.getData().setState(true);
+                            temp.getData().setDateOn(LocalTime.now());
+                            System.out.println("hora de encendido" + temp.getData().getId() +
+                                    " : " + temp.getData().getDateOn());
+
+                        }
+                        if (empt != null) {
+                            empt.getData().setState(true);
+                            empt.getData().setDateOn(LocalTime.now());
+                            System.out.println("hora de encendido" + empt.getData().getId() +
+                                    " : " + empt.getData().getDateOn());
+
+
+                        }
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+
+                        }
+                        if (temp != listDE.getHead()) {
+                            temp.getData().setState(false);
+                            temp.getData().setDateOff(LocalTime.now());
+                            System.out.println("Hora de apagado" + temp.getData().getId() +
+                                    " : " + temp.getData().getDateOff());
+                            temp = temp.getPrevious();
+
+
+                            empt.getData().setState(false);
+                            empt.getData().setDateOff(LocalTime.now());
+                            System.out.println("Hora de apagado" + empt.getData().getId() +
+                                    " : " + empt.getData().getDateOff());
+                            empt = empt.getNext();
+                        }else{
+                            temp.getData().setState(true);
+                            temp.getData().setDateOn(LocalTime.now());
+                            System.out.println("hora de encendido" + temp.getData().getId() +
+                                    " : " + temp.getData().getDateOn());
+                            empt.getData().setState(true);
+                            empt.getData().setDateOn(LocalTime.now());
+                            System.out.println("hora de encendido" + empt.getData().getId() +
+                                    " : " + empt.getData().getDateOn());
+                        }
+                    }
+
                 }
 
             }
-
         }
-
     }
 }
