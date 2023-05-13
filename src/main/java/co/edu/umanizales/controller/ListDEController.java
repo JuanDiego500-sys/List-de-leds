@@ -14,14 +14,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/list_de")
 public class ListDEController {
     private ListDEService listDEService;
+
     public ListDEController(ListDEService listDEService) {
         this.listDEService = listDEService;
     }
+
     @GetMapping(path = "/get_list")
     public ResponseEntity<ResponseDTO> getPets() {
         return new ResponseEntity<>(new ResponseDTO(
-                200, listDEService.LedsToString() , null), HttpStatus.OK);
+                200, listDEService.LedsToString(), null), HttpStatus.OK);
     }
+
     @PostMapping
     public ResponseEntity<ResponseDTO> addLed(@RequestBody LedDTO ledDTO) {
         try {
@@ -46,17 +49,21 @@ public class ListDEController {
             return new ResponseEntity<>(new ResponseDTO(200, "leds reiniciadas y apagadas", null
             ), HttpStatus.OK);
         } catch (ListDEException e) {
-            throw new RequestException(e.getCode(), e.getMessage(), HttpStatus.BAD_REQUEST);
+            throw new RequestException(e.getCode(), e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
     @GetMapping(path = "/on_off_all_led")
-    public ResponseEntity<ResponseDTO> onOffAllLeds(){
-        if (listDEService.getLeds().getHead() != null) {
-            listDEService.ejecutarHilo();
+    public ResponseEntity<ResponseDTO> onOffAllLeds() {
+        if(listDEService.getLeds().getHead() !=null){
+            listDEService.runThread();
             return new ResponseEntity<>(new ResponseDTO(200, "realizado", null), HttpStatus.OK);
-        }else{
-            throw new RequestException("404","No hay datos en la lista",HttpStatus.BAD_REQUEST);
+
+        } else  {
+            throw new RequestException("404","no hay datos en la lista led",HttpStatus.NOT_FOUND);
         }
+
     }
+
 
 }//end of the listDE controller

@@ -1,5 +1,6 @@
 package co.edu.umanizales.service;
 
+import co.edu.umanizales.exception.ListDEException;
 import co.edu.umanizales.model.Led;
 import co.edu.umanizales.model.ListDE;
 import co.edu.umanizales.threads.ThreadOnOFffLeds;
@@ -20,7 +21,7 @@ public class ListDEService {
     public void addLedToBeginning(Led led){leds.addLedToBeginning(led);}
     public void restartLeds(){leds.restartLeds();}
     public String LedsToString(){return leds.toListString();}
-    public void ejecutarHilo() {
+    public void runThread(){
         ThreadOnOFffLeds threadListDE = new ThreadOnOFffLeds(leds);
         Thread thread = new Thread(threadListDE);
         thread.start();
