@@ -20,9 +20,9 @@ public class ListDEController {
     }
 
     @GetMapping(path = "/get_list")
-    public ResponseEntity<ResponseDTO> getPets() {
+    public ResponseEntity<ResponseDTO> getLeds() {
         return new ResponseEntity<>(new ResponseDTO(
-                200, listDEService.LedsToString(), null), HttpStatus.OK);
+                200, listDEService.shows(), null), HttpStatus.OK);
     }
 
     @PostMapping
@@ -38,8 +38,12 @@ public class ListDEController {
 
     @PostMapping(path = "/add_led_beginning")
     public ResponseEntity<ResponseDTO> addLedToBeginning(@RequestBody LedDTO ledDTO) {
-        listDEService.addLedToBeginning(new Led(ledDTO.getId(), ledDTO.isState(), ledDTO.getDateOn(), ledDTO.getDateOff()));
-        return new ResponseEntity<>(new ResponseDTO(200, "led agregada a la lista", null), HttpStatus.OK);
+        try {
+            listDEService.addLedToBeginning(new Led(ledDTO.getId(), ledDTO.isState(), ledDTO.getDateOn(), ledDTO.getDateOff()));
+            return new ResponseEntity<>(new ResponseDTO(200, "led agregada a la lista", null), HttpStatus.OK);
+        } catch (ListDEException e) {
+            throw new RequestException(e.getCode(), e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping(path = "/restart_list")
@@ -55,12 +59,12 @@ public class ListDEController {
 
     @GetMapping(path = "/on_off_all_led")
     public ResponseEntity<ResponseDTO> onOffAllLeds() {
-        if(listDEService.getLeds().getHead() !=null){
+        if (listDEService.getLeds().getHead() != null) {
             listDEService.runThread();
             return new ResponseEntity<>(new ResponseDTO(200, "realizado", null), HttpStatus.OK);
 
-        } else  {
-            throw new RequestException("404","no hay datos en la lista led",HttpStatus.NOT_FOUND);
+        } else {
+            throw new RequestException("404", "no hay datos en la lista led", HttpStatus.NOT_FOUND);
         }
 
     }

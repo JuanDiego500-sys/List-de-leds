@@ -104,7 +104,7 @@ public class ThreadOnOFffLeds implements Runnable {
                             Thread.currentThread().interrupt();
 
                         }
-                        if (temp != listDE.getHead()) {
+                        if (temp.getPrevious() != null) {
                             temp.getData().setState(false);
                             temp.getData().setDateOff(LocalTime.now());
                             System.out.println("Hora de apagado " + temp.getData().getId() +
@@ -118,20 +118,14 @@ public class ThreadOnOFffLeds implements Runnable {
                                     " : " + empt.getData().getDateOff());
                             empt = empt.getNext();
                         } else {
-                            temp.getData().setState(true);
-                            temp.getData().setDateOn(LocalTime.now());
-                            System.out.println("hora de encendido " + temp.getData().getId() +
-                                    " : " + temp.getData().getDateOn());
-                            empt.getData().setState(true);
-                            empt.getData().setDateOn(LocalTime.now());
-                            System.out.println("hora de encendido " + empt.getData().getId() +
-                                    " : " + empt.getData().getDateOn());
+                            temp = temp.getPrevious();
+                            empt = empt.getNext();
                         }
                     }
 
                 } else {
                     int pos = this.listDE.getSize() - 1;
-                    pos = this.listDE.getSize() / 2;
+                    pos = pos / 2;
                     for (int i = 0; i < pos; i++) {
                         temp = temp.getNext();
                         empt = temp;
@@ -153,12 +147,12 @@ public class ThreadOnOFffLeds implements Runnable {
 
                         }
                         try {
-                            Thread.sleep(10000);
+                            Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             Thread.currentThread().interrupt();
 
                         }
-                        if (temp != listDE.getHead()) {
+                        if (temp.getPrevious() != null) {
                             temp.getData().setState(false);
                             temp.getData().setDateOff(LocalTime.now());
                             System.out.println("Hora de apagado " + temp.getData().getId() +
@@ -172,14 +166,8 @@ public class ThreadOnOFffLeds implements Runnable {
                                     " : " + empt.getData().getDateOff());
                             empt = empt.getNext();
                         } else {
-                            temp.getData().setState(true);
-                            temp.getData().setDateOn(LocalTime.now());
-                            System.out.println("hora de encendido " + temp.getData().getId() +
-                                    " : " + temp.getData().getDateOn());
-                            empt.getData().setState(true);
-                            empt.getData().setDateOn(LocalTime.now());
-                            System.out.println("hora de encendido " + empt.getData().getId() +
-                                    " : " + empt.getData().getDateOn());
+                            temp = temp.getPrevious();
+                            empt = empt.getNext();
                         }
                     }
 

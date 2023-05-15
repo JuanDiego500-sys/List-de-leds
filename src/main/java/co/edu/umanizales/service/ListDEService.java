@@ -7,6 +7,8 @@ import co.edu.umanizales.threads.ThreadOnOFffLeds;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 @Data
 public class ListDEService {
@@ -20,7 +22,7 @@ public class ListDEService {
     public void addLedToEnd(Led led){ leds.addLed(led);}
     public void addLedToBeginning(Led led){leds.addLedToBeginning(led);}
     public void restartLeds(){leds.restartLeds();}
-    public String LedsToString(){return leds.toListString();}
+    public ArrayList<Led> shows(){return leds.showList();}
     public void runThread(){
         ThreadOnOFffLeds threadListDE = new ThreadOnOFffLeds(leds);
         Thread thread = new Thread(threadListDE);
